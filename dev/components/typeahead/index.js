@@ -1,3 +1,15 @@
+var _extends = Object.assign || function (target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i];
+            for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    };
+
 var Accessor = require('../accessor');
 var React = require('react');
 var TypeaheadSelector = require('./selector');
@@ -12,6 +24,8 @@ var classNames = require('classnames');
  * keyboard or mouse to select.  Requires CSS for MASSIVE DAMAGE.
  */
 var Typeahead = React.createClass({
+    displayName: 'Typeahead',
+
     propTypes: {
         name: React.PropTypes.string,
         customClasses: React.PropTypes.object,
@@ -32,28 +46,13 @@ var Typeahead = React.createClass({
         onKeyUp: React.PropTypes.func,
         onFocus: React.PropTypes.func,
         onBlur: React.PropTypes.func,
-        filterOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
-        ]),
+        filterOption: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.func]),
         searchOptions: React.PropTypes.func,
-        displayOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
-        ]),
-        inputDisplayOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
-        ]),
-        formInputOption: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func
-        ]),
+        displayOption: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.func]),
+        inputDisplayOption: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.func]),
+        formInputOption: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.func]),
         defaultClassNames: React.PropTypes.bool,
-        customListComponent: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.func
-        ]),
+        customListComponent: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.func]),
         showOptionsWhenEmpty: React.PropTypes.bool
     },
 
@@ -121,7 +120,20 @@ var Typeahead = React.createClass({
         // this.state must be checked because it may not be defined yet if this function
         // is called from within getInitialState
         var isFocused = this.state && this.state.isFocused;
-        return !(this.props.showOptionsWhenEmpty && isFocused) && emptyValue;
+        return !(this.props.showOptionsWhenEmpty || isFocused) && emptyValue;
+    },
+
+    _onHideSearchArea: function () {
+        this.setState({
+            searchResults: []
+        });
+    },
+
+    _setWidth:function(){
+        return this.refs.entry.offsetWidth;
+    },
+    _setOffsetTop:function () {
+        return this.refs.entry.offsetHeight;
     },
 
     getOptionsForValue: function (value, options) {
@@ -139,13 +151,11 @@ var Typeahead = React.createClass({
     },
 
     focus: function () {
-        this.refs.entry.focus()
+        this.refs.entry.focus();
     },
 
     _hasCustomValue: function () {
-        if (this.props.allowCustomValues > 0 &&
-            this.state.entryValue.length >= this.props.allowCustomValues &&
-            this.state.searchResults.indexOf(this.state.entryValue) < 0) {
+        if (this.props.allowCustomValues > 0 && this.state.entryValue.length >= this.props.allowCustomValues && this.state.searchResults.indexOf(this.state.entryValue) < 0) {
             return true;
         }
         return false;
@@ -169,20 +179,39 @@ var Typeahead = React.createClass({
             return "";
         }
 
-        return (
-            <this.props.customListComponent
-                ref="sel"
-                options={this.props.maxVisible ? this.state.searchResults.slice(0, this.props.maxVisible) : this.state.searchResults}
-                areResultsTruncated={this.props.maxVisible && this.state.searchResults.length > this.props.maxVisible}
-                resultsTruncatedMessage={this.props.resultsTruncatedMessage}
-                onOptionSelected={this._onOptionSelected}
-                allowCustomValues={this.props.allowCustomValues}
-                customValue={this._getCustomValue()}
-                customClasses={this.props.customClasses}
-                selectionIndex={this.state.selectionIndex}
-                defaultClassNames={this.props.defaultClassNames}
-                displayOption={Accessor.generateOptionToStringFor(this.props.displayOption)}/>
-        );
+        return React.createElement("div",
+            {
+                className: "searchArea",
+                style:{
+                    top:this._setOffsetTop()
+                }
+            }, [React.createElement("div",
+                {
+                    className: "closeArea",
+                    style: {
+                        display: (this.state.searchResults && this.state.searchResults.length > 0) ? 'block' : 'none',
+                        width:this._setWidth()
+                    }
+                }
+                // ,React.createElement("span", {
+                //     className: "closeBtn",
+                //     onClick: this._onHideSearchArea
+                // }, "x")
+            ),
+                React.createElement(
+                    this.props.customListComponent, {
+                        ref: 'sel',
+                        options: this.props.maxVisible ? this.state.searchResults.slice(0, this.props.maxVisible) : this.state.searchResults,
+                        areResultsTruncated: this.props.maxVisible && this.state.searchResults.length > this.props.maxVisible,
+                        resultsTruncatedMessage: this.props.resultsTruncatedMessage,
+                        onOptionSelected: this._onOptionSelected,
+                        allowCustomValues: this.props.allowCustomValues,
+                        customValue: this._getCustomValue(),
+                        customClasses: this.props.customClasses,
+                        selectionIndex: this.state.selectionIndex,
+                        defaultClassNames: this.props.defaultClassNames,
+                        displayOption: Accessor.generateOptionToStringFor(this.props.displayOption)
+                    })]);
     },
 
     getSelection: function () {
@@ -203,7 +232,6 @@ var Typeahead = React.createClass({
 
         var displayOption = Accessor.generateOptionToStringFor(this.props.inputDisplayOption || this.props.displayOption);
         var optionString = displayOption(option, 0);
-
         var formInputOption = Accessor.generateOptionToStringFor(this.props.formInputOption || displayOption);
         var formInputOptionString = formInputOption(option);
 
@@ -219,7 +247,6 @@ var Typeahead = React.createClass({
 
     _onTextEntryUpdated: function () {
         var value = this.refs.entry.value;
-        console.log(value);
         this.setState({
             searchResults: this.getOptionsForValue(value, this.props.options),
             selection: '',
@@ -237,14 +264,14 @@ var Typeahead = React.createClass({
 
     _onEscape: function () {
         this.setState({
-            selectionIndex: null
+            selectionIndex: null,
+            showResults:false
         });
     },
 
     _onTab: function (event) {
         var selection = this.getSelection();
-        var option = selection ?
-            selection : (this.state.searchResults.length > 0 ? this.state.searchResults[0] : null);
+        var option = selection ? selection : this.state.searchResults.length > 0 ? this.state.searchResults[0] : null;
 
         if (option === null && this._hasCustomValue()) {
             option = this._getCustomValue();
@@ -255,23 +282,34 @@ var Typeahead = React.createClass({
         }
     },
 
-    eventMap: function (event) {
+    eventMap: function (keyCode) {
         var events = {};
-
-        events[KeyEvent.DOM_VK_UP] = this.navUp;
-        events[KeyEvent.DOM_VK_DOWN] = this.navDown;
-        events[KeyEvent.DOM_VK_RETURN] = events[KeyEvent.DOM_VK_ENTER] = this._onEnter;
-        events[KeyEvent.DOM_VK_ESCAPE] = this._onEscape;
-        events[KeyEvent.DOM_VK_TAB] = this._onTab;
-
-        return events;
+        switch (keyCode){
+            case KeyEvent.DOM_VK_UP:
+                return this.navUp;
+                break;
+            case KeyEvent.DOM_VK_DOWN:
+                return this.navDown;
+                break;
+            case KeyEvent.DOM_VK_RETURN:
+                return this._onEnter;
+                break;
+            case KeyEvent.DOM_VK_ESCAPE:
+                return this._onEscape;
+                break;
+            case KeyEvent.DOM_VK_TAB:
+                return this._onTab;
+                break;
+            default:
+                return this._onChange;
+        }
     },
 
     _nav: function (delta) {
         if (!this._hasHint()) {
             return;
         }
-        var newIndex = this.state.selectionIndex === null ? (delta == 1 ? 0 : delta) : this.state.selectionIndex + delta;
+        var newIndex = this.state.selectionIndex === null ? delta == 1 ? 0 : delta : this.state.selectionIndex + delta;
         var length = this.props.maxVisible ? this.state.searchResults.slice(0, this.props.maxVisible).length : this.state.searchResults.length;
         if (this._hasCustomValue()) {
             length += 1;
@@ -282,7 +320,6 @@ var Typeahead = React.createClass({
         } else if (newIndex >= length) {
             newIndex -= length;
         }
-
         this.setState({selectionIndex: newIndex});
     },
 
@@ -298,27 +335,21 @@ var Typeahead = React.createClass({
         if (this.props.onChange) {
             this.props.onChange(event);
         }
-
+        this.setState({
+            showResults:true
+        });
         this._onTextEntryUpdated();
     },
 
     _onKeyDown: function (event) {
-        // If there are no visible elements, don't perform selector navigation.
-        // Just pass this up to the upstream onKeydown handler.
-        // Also skip if the user is pressing the shift key, since none of our handlers are looking for shift
-        if (!this._hasHint() || event.shiftKey) {
-            return this.props.onKeyDown(event);
-        }
 
-        var handler = this.eventMap()[event.keyCode];
+        var handler = this.eventMap(event.keyCode);
 
         if (handler) {
             handler(event);
         } else {
             return this.props.onKeyDown(event);
         }
-        // Don't propagate the keystroke back to the DOM/browser
-        event.preventDefault();
     },
 
     componentWillReceiveProps: function (nextProps) {
@@ -339,26 +370,25 @@ var Typeahead = React.createClass({
         var classList = classNames(classes);
 
         var InputElement = this.props.textarea ? 'textarea' : 'input';
-        return (
-            <div className={classList}>
-                { this._renderHiddenInput() }
-                <InputElement
-                    ref="entry"
-                    type="text"
-                    disabled={this.props.disabled}
-                    {...this.props.inputProps}
-                    placeholder={this.props.placeholder}
-                    className={inputClassList}
-                    value={this.state.entryValue}
-                    onChange={this._onChange}
-                    onKeyDown={this._onKeyDown}
-                    onKeyPress={this.props.onKeyPress}
-                    onKeyUp={this.props.onKeyUp}
-                    onFocus={this._onFocus}
-                    onBlur={this._onBlur}
-                />
-                { this.state.showResults && this._renderIncrementalSearchResults() }
-            </div>
+        return React.createElement(
+            'div',
+            {className: classList},
+            this._renderHiddenInput(),
+            React.createElement(InputElement, _extends({
+                ref: 'entry', type: 'text',
+                disabled: this.props.disabled
+            }, this.props.inputProps, {
+                placeholder: this.props.placeholder,
+                className: inputClassList,
+                value: this.state.entryValue,
+                onChange: this._onChange,
+                onKeyDown: this._onKeyDown,
+                onKeyPress: this.props.onKeyPress,
+                onKeyUp: this.props.onKeyUp,
+                onFocus: this._onFocus,
+                onBlur: this._onBlur
+            })),
+            this.state.showResults && this._renderIncrementalSearchResults()
         );
     },
 
@@ -385,13 +415,11 @@ var Typeahead = React.createClass({
             return null;
         }
 
-        return (
-            <input
-                type="hidden"
-                name={ this.props.name }
-                value={ this.state.selection }
-            />
-        );
+        return React.createElement('input', {
+            type: 'hidden',
+            name: this.props.name,
+            value: this.state.selection
+        });
     },
 
     _generateSearchFunction: function () {
@@ -416,11 +444,9 @@ var Typeahead = React.createClass({
                 mapper = Accessor.IDENTITY_FN;
             }
             return function (value, options) {
-                return fuzzy
-                    .filter(value, options, {extract: mapper})
-                    .map(function (res) {
-                        return options[res.index];
-                    });
+                return fuzzy.filter(value, options, {extract: mapper}).map(function (res) {
+                    return options[res.index];
+                });
             };
         }
     },

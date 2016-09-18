@@ -8,16 +8,7 @@ var AutoCompleteTypeahead = require('./components/autocomplete.react').Tokenizer
 
 ReactDOM.render(
     <AutoCompleteTypeahead
-        options={[{name:'chen'}, {name:'Paul'},{name:'George'},{name:'Ringo'}]}
-        className="topcoat-list"
-        displayOption="name"
-        filterOption="name"
-        customClasses={{
-            input: "topcoat-text-input",
-            results: "topcoat-list__container",
-            listItem: "topcoat-list__item"
-      }}
-    />,
+        options={['chen','lili','chenjianhui']}/>,
     document.getElementById('pageWrap')
 );
 

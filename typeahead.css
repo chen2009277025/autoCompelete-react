@@ -1,0 +1,111 @@
+.typeahead{
+    position: relative;
+}
+
+.typeahead input{
+    height: 24px;
+}
+
+.control-label {
+    line-height: 34px;
+}
+.closeBtn {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    z-index: 1000;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+}
+.closeArea {
+    position: relative;
+}
+
+.searchArea {
+    position: absolute;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.typeahead-tokenizer{
+    display: inline-block;
+    position: relative;
+    border:1px solid #ddd;
+}
+
+.typeahead-tokenizer div{
+    float: left;
+}
+
+.typeahead-token {
+    background-color: #2698e0;
+    padding: 0 20px 0 5px;
+    color: #fff;
+    display: inline-block;
+    line-height: 26px;
+    margin: 2px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    z-index: 99;
+    position: relative;
+}
+
+.typeahead-token-close {
+    color: #fff;
+    margin-left: 5px;
+    position: absolute;
+    right: 6px;
+}
+.typeahead-tokenizer {
+    position: relative;
+}
+
+.typeahead-option {
+    color: #2a2a2a;
+}
+
+.typeahead-selector-li {
+    line-height: 30px;
+    font-size: 13px;
+    padding-left: 10px;
+    white-space: nowrap;
+}
+
+
+.typeahead-option {
+    color: #fff;
+    text-decoration: none;
+}
+
+ul.typeahead-selector {
+    z-index: 100;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    background-color: #fdfdfd;
+    -webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.typeahead-selector li{
+    padding: 5px 8px;
+}
+
+ul.typeahead-selector li a{
+    color: #2698E0;
+}
+
+ul.typeahead-selector li:hover,ul.typeahead-selector li.hover,ul.typeahead-selector li.hover a, ul.typeahead-selector li:hover a{
+    background-color: #2698E0;
+    color: #fff;
+}
