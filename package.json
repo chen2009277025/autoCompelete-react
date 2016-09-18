@@ -1,0 +1,39 @@
+{
+  "name": "flux-chat",
+  "version": "0.0.2",
+  "description": "my react learn---typeahead",
+  "repository": "",
+  "main": "dev/app.js",
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "flux": "^2.0.0",
+    "fuzzy": "^0.1.1",
+    "keymirror": "~0.1.0",
+    "object-assign": "^1.0.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
+  },
+  "devDependencies": {
+    "browserify": "^6.2.0",
+    "envify": "^3.0.0",
+    "jest-cli": "^0.4.3",
+    "reactify": "^0.15.2",
+    "uglify-js": "~2.4.15",
+    "watchify": "^2.1.1"
+  },
+  "scripts": {
+    "start": "watchify -o dev/bundle.js -v -d dev/app.js",
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > dist/bundle.min.js",
+    "test": "jest"
+  },
+  "author": "Bill Fisher",
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  },
+  "jest": {
+    "rootDir": "./js"
+  }
+}
