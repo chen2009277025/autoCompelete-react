@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d446d8e6-c274-4cc7-b46b-79d585834d87" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/typeahead.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/app.js" afterPath="$PROJECT_DIR$/dev/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/bundle.js" afterPath="$PROJECT_DIR$/dev/bundle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/components/tokenizer/index.js" afterPath="$PROJECT_DIR$/dev/components/tokenizer/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/components/tokenizer/token.js" afterPath="$PROJECT_DIR$/dev/components/tokenizer/token.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/components/typeahead/index.js" afterPath="$PROJECT_DIR$/dev/components/typeahead/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/components/typeahead/option.js" afterPath="$PROJECT_DIR$/dev/components/typeahead/option.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/components/typeahead/selector.js" afterPath="$PROJECT_DIR$/dev/components/typeahead/selector.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
     </list>
     <ignored path="typeahead-chen01.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,8 +76,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+            <state relative-caret-position="45">
+              <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -399,12 +389,12 @@
       <workItem from="1473678595515" duration="561000" />
       <workItem from="1473681078561" duration="284000" />
       <workItem from="1474170337463" duration="17596000" />
-      <workItem from="1474192400589" duration="4604000" />
+      <workItem from="1474192400589" duration="4802000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23045000" />
+    <option name="totallyTimeSpent" value="23243000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -598,6 +588,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -701,8 +692,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+        <state relative-caret-position="45">
+          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
           <folding />
         </state>
       </provider>
